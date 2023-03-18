@@ -14,6 +14,7 @@ const getCurrentTab = async () => {
   }
   lastTabUrl = tab.url
   console.log(tab)
+  chrome.tabs.sendMessage(tab.id, tab.url)
   return { tab, change: true }
 }
 
