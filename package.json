@@ -30,6 +30,9 @@
     "permissions": [
       "storage",
       "tabs"
-    ]
+    ],
+    "background": {
+      "persistent": true
+    }
   }
 }
