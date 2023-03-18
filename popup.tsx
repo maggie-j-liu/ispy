@@ -1,5 +1,9 @@
 import { useState } from "react"
+import { Storage } from "@plasmohq/storage"
 
+const storage = new Storage()
+let send = false
+let receieve = false
 function IndexPopup() {
   const [data, setData] = useState("")
 
@@ -12,6 +16,9 @@ function IndexPopup() {
       }}>
       <h1>iSpy</h1>
       <button onClick={createWebSocketConnection}> Test </button>
+      <br />
+      <input type="checkbox" name="Send"></input>
+      <input type="checkbox" name="Receive"></input>
     </div>
   )
 }
