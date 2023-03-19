@@ -160,11 +160,22 @@ const CustomButton = () => {
                           <div className="flex gap-2 relative">
                             {Object.keys(urlsMap).map((uid) => (
                               <div key={uid} className="group pb-4 -mb-4">
-                                <div className="flex-shrink-0 hover:ring-2 hover:ring-blue-300 rounded-full">
-                                  <img
-                                    className="w-8 h-8 cursor-auto"
-                                    src={avatarMap[uid]}
-                                  />
+                                <div className="flex-shrink-0 group-hover:ring-2 group-hover:ring-blue-300 rounded-full">
+                                  <a
+                                    onClick={() => poke(uid)}
+                                    role="button"
+                                    className="relative hover:cursor-pointer overflow-hidden rounded-full block">
+                                    <img
+                                      className="w-8 h-8"
+                                      src={avatarMap[uid]}
+                                    />
+                                    <div className=" duration-150 opacity-0 hover:opacity-100 bg-gray-700/70 absolute top-0 left-0 w-8 h-8 flex items-center justify-center">
+                                      <div className="text-[10px] text-gray-300 italic">
+                                        poke
+                                      </div>
+                                    </div>
+                                  </a>
+
                                   <div className="bg-blue-200 rounded-md py-1 px-2 z-10 w-full h-max hidden group-hover:block absolute top-10 left-0">
                                     <div className="font-semibold">
                                       {uid in usernameMap
@@ -194,19 +205,26 @@ const CustomButton = () => {
                         <div className="flex flex-col gap-3">
                           {Object.keys(urlsMap).map((uid) => (
                             <div key={uid} className="flex items-center gap-4">
-                              <button
-                                className="group rounded-full overflow-hidden relative"
-                                onClick={() => poke(uid)}>
+                              {uid !== userId ? (
+                                <button
+                                  className="group rounded-full overflow-hidden relative"
+                                  onClick={() => poke(uid)}>
+                                  <img
+                                    className="w-10 h-10"
+                                    src={avatarMap[uid]}
+                                  />
+                                  <div className="duration-150 opacity-0 group-hover:opacity-100 bg-gray-700/70 absolute top-0 left-0 w-10 h-10 flex items-center justify-center">
+                                    <div className="pb-0.5 text-sm text-gray-300 italic">
+                                      poke
+                                    </div>
+                                  </div>
+                                </button>
+                              ) : (
                                 <img
                                   className="w-10 h-10"
                                   src={avatarMap[uid]}
                                 />
-                                <div className="duration-150 opacity-0 group-hover:opacity-100 bg-gray-700/70 absolute top-0 left-0 w-10 h-10 flex items-center justify-center">
-                                  <div className="pb-0.5 text-sm text-gray-300 italic">
-                                    poke
-                                  </div>
-                                </div>
-                              </button>
+                              )}
                               <div className="max-w-sm">
                                 <div className="truncate text-lg font-semibold leading-tight">
                                   {uid in usernameMap ? usernameMap[uid] : uid}
