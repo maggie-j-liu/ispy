@@ -11,7 +11,10 @@ import { getUsername } from "~util/getUsername"
 
 export const getStyle = () => {
   const style = document.createElement("style")
-  style.textContent = cssText
+  console.log(cssText)
+  style.textContent =
+    cssText +
+    "#plasmo-shadow-container > #plasmo-overlay-0 {position: relative !important; }"
   return style
 }
 
@@ -88,7 +91,7 @@ const CustomButton = () => {
   // </Draggable>
   return (
     <Draggable handle=".handle" enableUserSelectHack={false}>
-      <div className="px-4 py-4 text-black">
+      <div className="absolute px-4 py-4 text-black">
         <div className="bg-gray-200 bg-opacity-70 backdrop-blur-sm hover:bg-opacity-100 flex px-2 py-2 rounded-md flex-col gap-y-4">
           {Object.keys(urlsMap).map((uid) => (
             <div key={uid} className="flex items-center gap-4">
