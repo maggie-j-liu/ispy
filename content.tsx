@@ -88,6 +88,7 @@ const CustomButton = () => {
       })
     })()
   }, [])
+
   //   <div className="box no-cursor">
   //     <strong className="cursor"><div>Drag here</div></strong>
   //     <div>You must click my handle to drag me</div>
