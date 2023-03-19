@@ -59,11 +59,14 @@ const Popup = () => {
   if (loading) {
     return null
   }
+
   return (
     <div className="min-w-[20rem] py-12 px-8 text-base">
       <p className="font-mono text-center text-2xl">
         i<span className="font-bold text-3xl">Spy</span>
       </p>
+      <br />
+
       <div>Current room (share this with friends!)</div>
       <pre>{roomId}</pre>
       <button
