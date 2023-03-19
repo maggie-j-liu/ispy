@@ -9,6 +9,7 @@ const Popup = () => {
   const [loading, setLoading] = useState(true)
   const [roomId, setRoomId] = useState<string>()
   const [enteredCode, setEnteredCode] = useState("")
+  const [name, setName] = useState<string>()
   const socket = useRef<Socket>()
 
   const getRoomId = async () => {
@@ -23,6 +24,15 @@ const Popup = () => {
     setRoomId(id)
     return id
   }
+  useEffect(() => {
+    async function retrieveName() {
+      const oldname = await chrome.storage.sync.get("name")
+      if ("name" in oldname) {
+        setName(oldname.name)
+      }
+    }
+    retrieveName()
+  })
 
   useEffect(() => {
     socket.current = io("wss://HalfPoliticalMap.maggieliu1.repl.co")
@@ -44,6 +54,11 @@ const Popup = () => {
     setEnteredCode("")
   }
 
+  const doNameStuff = async (newName: string) => {
+    setName(newName)
+    await chrome.storage.sync.set({ name: newName })
+  }
+
   const leaveRoom = async () => {
     const id = crypto.randomUUID()
     await chrome.storage.sync.set({ roomId: id })
@@ -60,6 +75,14 @@ const Popup = () => {
       <p className="font-mono text-center text-2xl">
         i<span className="font-bold text-3xl">Spy</span>
       </p>
+      <div>ur name:</div>
+      <input
+        className="px-2 py-1 ring-blue-300 ring-2 rounded-md w-full bg-gray-100"
+        id="joincode"
+        type="text"
+        value={name}
+        onChange={(e) => doNameStuff(e.target.value)}
+      />
       <div>Current room (share this with friends!)</div>
       <pre>{roomId}</pre>
       <button
