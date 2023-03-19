@@ -93,9 +93,10 @@ const CustomButton = () => {
   //     <div>You must click my handle to drag me</div>
   //   </div>
   // </Draggable>
+  if (Object.entries(urlsMap).length === 0) return null
   return (
     <Draggable enableUserSelectHack={false}>
-      <div className="absolute font-sans px-4 py-4 text-black">
+      <div className="fixed cursor-move font-sans px-4 py-4 text-black">
         <div className="w-[29rem] backdrop-blur-sm">
           <div
             className={`bg-gray-200 bg-opacity-70 flex px-2 py-2 rounded-t flex-col gap-y-4`}>
@@ -116,7 +117,10 @@ const CustomButton = () => {
                           {Object.keys(urlsMap).map((uid) => (
                             <div key={uid} className="group pb-4 -mb-4">
                               <div className="flex-shrink-0 hover:ring-2 hover:ring-blue-300 rounded-full">
-                                <img className="w-8 h-8" src={avatarMap[uid]} />
+                                <img
+                                  className="w-8 h-8 cursor-auto"
+                                  src={avatarMap[uid]}
+                                />
                                 <div className="bg-blue-200 rounded-md py-1 px-2 z-10 w-full h-max hidden group-hover:block absolute top-10 left-0">
                                   <div className="font-semibold">
                                     {uid in usernameMap
@@ -151,7 +155,11 @@ const CustomButton = () => {
                               <div className="truncate text-lg font-semibold leading-tight">
                                 {uid in usernameMap ? usernameMap[uid] : uid}
                               </div>
-                              <div className="flex gap-1.5 items-center">
+                              <a
+                                className="flex gap-1.5 items-center underline"
+                                href={urlsMap[uid]}
+                                target="_blank"
+                                rel="noreferrer">
                                 <img
                                   className="w-6 h-6 bg-white rounded px-0.5 py-0.5"
                                   src={`https://www.google.com/s2/favicons?domain=${urlsMap[uid]}&sz=32`}
@@ -159,7 +167,7 @@ const CustomButton = () => {
                                 <div className="text-gray-800 font-light truncate text-sm">
                                   {urlsMap[uid]}
                                 </div>
-                              </div>
+                              </a>
                             </div>
                           </div>
                         ))}
