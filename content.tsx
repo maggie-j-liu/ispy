@@ -33,7 +33,7 @@ const CustomButton = () => {
       // check if the user has an uid already
       const uid = await getUid()
       console.log("headers", uid)
-      const socket = io("wss://HalfPoliticalMap.maggieliu1.repl.co", {
+      const socket = io("wss://ispy-server.maggieliu1.repl.co", {
         auth: {
           uid
         }

@@ -19,7 +19,7 @@ const Popup = () => {
   const socket = useRef<Socket>()
 
   useEffect(() => {
-    socket.current = io("wss://HalfPoliticalMap.maggieliu1.repl.co")
+    socket.current = io("wss://ispy-server.maggieliu1.repl.co")
     socket.current.on("connect", () => {
       console.log("sock id", socket.current.id)
       setLoading(false)
