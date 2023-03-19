@@ -1,8 +1,8 @@
 {
   "name": "ispy",
-  "displayName": "Ispy",
+  "displayName": "iSpy",
   "version": "0.0.1",
-  "description": "A basic Plasmo extension.",
+  "description": "A browser extension for peer-pressure driven productivity.",
   "author": "maggie",
   "scripts": {
     "dev": "plasmo dev",
