@@ -2,6 +2,7 @@ import cssText from "data-text:~style.css"
 import { useEffect, useState } from "react"
 import { render } from "react-dom"
 import Draggable, { DraggableCore } from "react-draggable"
+import { BsArrowsMove } from "react-icons/bs"
 import { io } from "socket.io-client"
 
 import { getAvatar } from "~util/getAvatar"
@@ -114,8 +115,8 @@ const CustomButton = () => {
           ))}
           <div
             onMouseDown={(e) => e.preventDefault()}
-            className="hover:cursor-move bg-blue-500 top-0 right-0 handle">
-            move me
+            className="-ml-4 -mb-4 p-2 w-fit rounded-lg hover:cursor-move bg-blue-500 top-0 right-0 handle">
+            <BsArrowsMove className="text-white" />
           </div>
         </div>
       </div>
