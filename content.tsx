@@ -23,7 +23,6 @@ export const getStyle = () => {
 }
 
 const CustomButton = () => {
-  const [message, setMessage] = useState("")
   const [urlsMap, setUrlsMap] = useState({})
   const [usernameMap, setUsernameMap] = useState({})
   const [avatarMap, setAvatarMap] = useState({})
@@ -59,7 +58,6 @@ const CustomButton = () => {
         chrome.runtime.sendMessage("getCurrentUrl")
         chrome.runtime.onMessage.addListener(
           (request, sender, sendResponse) => {
-            setMessage(request)
             console.log("emitting currentUrl", request)
             socket.emit("currentUrl", request, Date.now())
           }
@@ -70,11 +68,15 @@ const CustomButton = () => {
         setUsernameMap(_usernameMap)
         setAvatarMap(_avatarMap)
       })
-      socket.on("changeUrl", (userId, newUrl) => {
+      socket.on("changeUrl", async (userId, newUrl) => {
         setUrlsMap((u) => {
           u[userId] = newUrl
           return { ...u }
         })
+        if (userId === uid) {
+          const minimizePref = await getMinimizePref()
+          setMinimize(minimizePref)
+        }
       })
       socket.on("usernameChange", ({ uid, username }) => {
         console.log("got usernamechange")
