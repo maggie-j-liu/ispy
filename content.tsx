@@ -94,8 +94,8 @@ const CustomButton = () => {
   //   </div>
   // </Draggable>
   return (
-    <Draggable handle=".handle" enableUserSelectHack={false}>
-      <div className="font-sans px-4 py-4 text-black">
+    <Draggable enableUserSelectHack={false}>
+      <div className="absolute font-sans px-4 py-4 text-black">
         <div className="w-[29rem] backdrop-blur-sm">
           <div
             className={`bg-gray-200 bg-opacity-70 flex px-2 py-2 rounded-t flex-col gap-y-4`}>
@@ -178,11 +178,11 @@ const CustomButton = () => {
             className={`duration-150 h-6 w-full hover:bg-gray-400 flex items-center justify-center bg-gray-300 rounded-b bg-opacity-70`}>
             {minimize ? "▼" : "▲"}
           </button>
-          <div
+          {/* <div
             onMouseDown={(e) => e.preventDefault()}
             className="-ml-4 -mb-4 p-2 w-fit rounded-lg hover:cursor-move bg-blue-500 top-0 right-0 handle">
             <BsArrowsMove className="text-white" />
-          </div>
+          </div> */}
         </div>
       </div>
     </Draggable>
