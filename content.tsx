@@ -8,6 +8,7 @@ import useMeasure from "react-use-measure"
 import { io } from "socket.io-client"
 
 import { getAvatar } from "~util/getAvatar"
+import { getMinimizePref } from "~util/getMinimizePref"
 import { getRoomId } from "~util/getRoomId"
 import { getUid } from "~util/getUid"
 import { getUsername } from "~util/getUsername"
@@ -22,11 +23,10 @@ export const getStyle = () => {
 }
 
 const CustomButton = () => {
-  const [message, setMessage] = useState("")
   const [urlsMap, setUrlsMap] = useState({})
   const [usernameMap, setUsernameMap] = useState({})
   const [avatarMap, setAvatarMap] = useState({})
-  const [minimize, setMinimize] = useState(true)
+  const [minimize, setMinimize] = useState(false)
   const [ref, { height }] = useMeasure()
   useEffect(() => {
     ;(async () => {
@@ -40,11 +40,13 @@ const CustomButton = () => {
       })
       socket.on("connect", async () => {
         console.log("connected", socket.id)
-        const [roomId, username, avatar] = await Promise.all([
+        const [roomId, username, avatar, minimizePref] = await Promise.all([
           getRoomId(),
           getUsername(),
-          getAvatar(uid)
+          getAvatar(uid),
+          getMinimizePref()
         ])
+        setMinimize(minimizePref)
         console.log("got username", username)
         socket.emit("joinRoom", {
           roomId,
@@ -56,7 +58,6 @@ const CustomButton = () => {
         chrome.runtime.sendMessage("getCurrentUrl")
         chrome.runtime.onMessage.addListener(
           (request, sender, sendResponse) => {
-            setMessage(request)
             console.log("emitting currentUrl", request)
             socket.emit("currentUrl", request, Date.now())
           }
@@ -67,11 +68,15 @@ const CustomButton = () => {
         setUsernameMap(_usernameMap)
         setAvatarMap(_avatarMap)
       })
-      socket.on("changeUrl", (userId, newUrl) => {
+      socket.on("changeUrl", async (userId, newUrl) => {
         setUrlsMap((u) => {
           u[userId] = newUrl
           return { ...u }
         })
+        if (userId === uid) {
+          const minimizePref = await getMinimizePref()
+          setMinimize(minimizePref)
+        }
       })
       socket.on("usernameChange", ({ uid, username }) => {
         console.log("got usernamechange")
@@ -181,7 +186,8 @@ const CustomButton = () => {
             {/* */}
           </div>
           <button
-            onClick={() => {
+            onClick={async () => {
+              await chrome.storage.sync.set({ minimize: !minimize })
               setMinimize(!minimize)
             }}
             className={`duration-150 h-6 w-full hover:bg-gray-400 flex items-center justify-center bg-gray-300 rounded-b bg-opacity-70`}>
