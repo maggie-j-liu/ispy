@@ -63,7 +63,7 @@ const Popup = () => {
   }
 
   return (
-    <div className="w-[25rem] h-[28rem] relative">
+    <div className="w-[26rem] h-[28rem] relative">
       <AnimatePresence initial={false}>
         <motion.div
           key={loading ? "loading" : "loaded"}
@@ -80,7 +80,7 @@ const Popup = () => {
               </div>
             </div>
           ) : (
-            <div className="w-[25rem] min-h-[28rem] py-12 px-8 text-base">
+            <div className="py-12 px-8 text-base">
               <p className="font-mono text-center text-2xl">
                 i<span className="font-bold text-3xl">Spy</span>
               </p>
