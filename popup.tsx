@@ -101,7 +101,7 @@ const Popup = () => {
       <hr />
       <div className="h-6" />
       <div className="flex gap-2">
-        <img src={avatar} />
+        <img className="w-9 h-9 rounded-full overflow-hidden" src={avatar} />
         <input
           type="text"
           className="ring-gray-200 ring-1 rounded-md bg-gray-100 px-2 py-1"
