@@ -1,7 +1,7 @@
-import Avatar from "boring-avatars"
 import { useEffect, useRef, useState } from "react"
 import { Socket, io } from "socket.io-client"
 
+import { getAvatar } from "~util/getAvatar"
 import { getRoomId } from "~util/getRoomId"
 import { getUid } from "~util/getUid"
 import { getUsername } from "~util/getUsername"
@@ -14,6 +14,7 @@ const Popup = () => {
   const [enteredCode, setEnteredCode] = useState("")
   const [uid, setUid] = useState()
   const [username, setUsername] = useState<string>()
+  const [avatar, setAvatar] = useState<string>()
   const [originalUsername, setOriginalUsername] = useState<string>()
   const socket = useRef<Socket>()
 
@@ -29,9 +30,11 @@ const Popup = () => {
         getUid(),
         getUsername()
       ])
+      const _avatar = await getAvatar(_uid)
       setRoomId(_roomId)
       setUid(_uid)
       setUsername(_username)
+      setAvatar(_avatar)
       setOriginalUsername(_username)
       socket.current.emit("joinRoom", { roomId: _roomId, uid: _uid })
     })()
@@ -54,6 +57,7 @@ const Popup = () => {
   const changeUsername = async () => {
     await chrome.storage.sync.set({ username })
     socket.current.emit("setUsername", { uid, username })
+    setOriginalUsername(username)
   }
 
   if (loading) {
@@ -96,7 +100,7 @@ const Popup = () => {
       <hr />
       <div className="h-6" />
       <div className="flex gap-2">
-        <Avatar name={uid} variant="beam" size={36} />
+        <img src={avatar} />
         <input
           type="text"
           className="ring-gray-200 ring-1 rounded-md bg-gray-100 px-2 py-1"
