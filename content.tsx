@@ -33,7 +33,16 @@ const CustomButton = () => {
   const [ref, { height }] = useMeasure()
   const socketRef = useRef<Socket>()
 
-  const ToastMsg = ({ avatar, username }) => {
+  const ToastMsg = ({ uid }) => {
+    let avatar, username
+    setAvatarMap((a) => {
+      avatar = a[uid]
+      return a
+    })
+    setUsernameMap((u) => {
+      username = u[uid]
+      return u
+    })
     return (
       <div className="flex items-center">
         <img src={avatar} className="w-8 h-8 rounded-full mr-2" />
@@ -111,16 +120,7 @@ const CustomButton = () => {
         })
       })
       socket.on("poke", ({ from }) => {
-        let avatar, username
-        setAvatarMap((a) => {
-          avatar = a[from]
-          return a
-        })
-        setUsernameMap((u) => {
-          username = u[from]
-          return u
-        })
-        toast(<ToastMsg avatar={avatar} username={username} />, {
+        toast(<ToastMsg uid={from} />, {
           position: "bottom-left"
         })
       })
@@ -161,20 +161,27 @@ const CustomButton = () => {
                             {Object.keys(urlsMap).map((uid) => (
                               <div key={uid} className="group pb-4 -mb-4">
                                 <div className="flex-shrink-0 group-hover:ring-2 group-hover:ring-blue-300 rounded-full">
-                                  <a
-                                    onClick={() => poke(uid)}
-                                    role="button"
-                                    className="relative hover:cursor-pointer overflow-hidden rounded-full block">
+                                  {uid === userId ? (
                                     <img
-                                      className="w-8 h-8"
+                                      className="w-8 h-8 rounded-full"
                                       src={avatarMap[uid]}
                                     />
-                                    <div className=" duration-150 opacity-0 hover:opacity-100 bg-gray-700/70 absolute top-0 left-0 w-8 h-8 flex items-center justify-center">
-                                      <div className="text-[10px] text-gray-300 italic">
-                                        poke
+                                  ) : (
+                                    <a
+                                      onClick={() => poke(uid)}
+                                      role="button"
+                                      className="relative hover:cursor-pointer overflow-hidden rounded-full block">
+                                      <img
+                                        className="w-8 h-8 rounded-full"
+                                        src={avatarMap[uid]}
+                                      />
+                                      <div className=" duration-150 opacity-0 hover:opacity-100 bg-gray-700/70 absolute top-0 left-0 w-8 h-8 flex items-center justify-center">
+                                        <div className="text-[10px] text-gray-300 italic">
+                                          poke
+                                        </div>
                                       </div>
-                                    </div>
-                                  </a>
+                                    </a>
+                                  )}
 
                                   <div className="bg-blue-200 rounded-md py-1 px-2 z-10 w-full h-max hidden group-hover:block absolute top-10 left-0">
                                     <div className="font-semibold">
@@ -210,7 +217,7 @@ const CustomButton = () => {
                                   className="group rounded-full overflow-hidden relative"
                                   onClick={() => poke(uid)}>
                                   <img
-                                    className="w-10 h-10"
+                                    className="w-10 h-10 rounded-full"
                                     src={avatarMap[uid]}
                                   />
                                   <div className="duration-150 opacity-0 group-hover:opacity-100 bg-gray-700/70 absolute top-0 left-0 w-10 h-10 flex items-center justify-center">
@@ -221,7 +228,7 @@ const CustomButton = () => {
                                 </button>
                               ) : (
                                 <img
-                                  className="w-10 h-10"
+                                  className="w-10 h-10 rounded-full"
                                   src={avatarMap[uid]}
                                 />
                               )}
