@@ -53,6 +53,7 @@ const Popup = () => {
 
   const changeUsername = async () => {
     await chrome.storage.sync.set({ username })
+    setOriginalUsername(username)
     socket.current.emit("setUsername", { uid, username })
   }
 
