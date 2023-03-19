@@ -1,25 +1,17 @@
 import { useEffect, useState } from "react"
 import { io } from "socket.io-client"
 
+import { getUid } from "~util/getUid"
+
 const CustomButton = () => {
   const [message, setMessage] = useState("")
-  const [socketMessage, setSocketMessage] = useState("none")
+  const [urlsMap, setUrlsMap] = useState({})
   useEffect(() => {
     ;(async () => {
       // check if the user has an uid already
-      const storage = await chrome.storage.sync.get("uid")
-      let uid
-      if (!("uid" in storage)) {
-        // random 32 character string
-        uid = crypto.randomUUID()
-        console.log(uid)
-        await chrome.storage.sync.set({ uid })
-      } else {
-        uid = storage.uid
-      }
-
+      const uid = await getUid()
       console.log("headers", uid)
-      const socket = io("wss://famous-duck-47.deno.dev", {
+      const socket = io("wss://HalfPoliticalMap.maggieliu1.repl.co", {
         auth: {
           uid
         }
@@ -36,16 +28,17 @@ const CustomButton = () => {
           }
         )
       })
-      socket.on("changeUrl", (socketId, newUrl) => {
-        console.log("socket id", socketId, "new url", newUrl)
-        setSocketMessage(newUrl)
+      socket.on("changeUrl", (userId, newUrl) => {
+        console.log("socket id", userId, "new url", newUrl)
+        urlsMap[userId] = newUrl
+        setUrlsMap({ ...urlsMap })
       })
     })()
   }, [])
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div>{message}</div>
-      <div>{socketMessage}</div>
+      <div>{JSON.stringify(urlsMap)}</div>
     </div>
   )
 }
