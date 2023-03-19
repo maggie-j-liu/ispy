@@ -57,6 +57,9 @@ const Popup = () => {
   }
   return (
     <div className="min-w-[20rem] py-12 px-8 text-base">
+      <p className="font-mono text-center text-2xl">
+        i<span className="font-bold text-3xl">Spy</span>
+      </p>
       <div>Current room (share this with friends!)</div>
       <pre>{roomId}</pre>
       <button
@@ -67,7 +70,7 @@ const Popup = () => {
       <div className="h-6" />
       <div>
         <label htmlFor="joincode" className="block">
-          Join Room
+          Enter a room code
         </label>
         <input
           className="px-2 py-1 ring-blue-300 ring-2 rounded-md w-full bg-gray-100"
@@ -79,7 +82,7 @@ const Popup = () => {
         <button
           className="bg-blue-300 px-2 py-1 rounded-md mt-2 hover:bg-blue-400"
           onClick={() => joinRoom()}>
-          Submit
+          Join Room
         </button>
       </div>
     </div>
