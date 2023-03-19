@@ -7,8 +7,6 @@ import "./style.css"
 
 const Popup = () => {
   const getIdFromStorage = async () => {
-    const allstorage = await chrome.storage.sync.get(null)
-    console.log(allstorage)
     const storage = await chrome.storage.sync.get("roomId")
     console.log(storage)
     if ("roomId" in storage) {

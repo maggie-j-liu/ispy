@@ -16,8 +16,16 @@ const CustomButton = () => {
           uid
         }
       })
-      socket.on("connect", () => {
+      socket.on("connect", async () => {
         console.log("connected", socket.id)
+        const storage = await chrome.storage.sync.get("roomId")
+        if ("roomId" in storage) {
+          console.log("joining room", storage.roomId)
+          socket.emit("joinRoom", {
+            roomId: storage.roomId,
+            uid
+          })
+        }
         // poll for current url so addListener will be called
         chrome.runtime.sendMessage("getCurrentUrl")
         chrome.runtime.onMessage.addListener(
@@ -31,7 +39,14 @@ const CustomButton = () => {
       socket.on("changeUrl", (userId, newUrl) => {
         console.log("socket id", userId, "new url", newUrl)
         urlsMap[userId] = newUrl
-        setUrlsMap({ ...urlsMap })
+        setUrlsMap((u) => {
+          u[userId] = newUrl
+          return { ...u }
+        })
+      })
+      socket.on("initUrls", (_urlsMap) => {
+        console.log("initurls", _urlsMap)
+        setUrlsMap(_urlsMap)
       })
     })()
   }, [])
