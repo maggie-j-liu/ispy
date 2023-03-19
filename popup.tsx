@@ -66,25 +66,34 @@ const Popup = () => {
   }
   return (
     <div className="min-w-[20rem] py-12 px-8 text-base space-y-2">
-      <div className="">
+      <p className="font-mono text-center text-2xl">
+        i<span className="font-bold text-3xl">Spy</span>
+      </p>
+      <div className="flex align-center justify-center">
         <button
-          className="mx-auto bg-blue-300 hover:bg-blue-400 px-4 rounded-md py-1 text-center"
+          className="font-mono mt-4 mx-auto bg-blue-500 bg-opacity-20 hover:scale-105 duration-300	 px-4 rounded-md py-1 text-center"
           onClick={() => createRoom()}>
           Create a Room
         </button>
       </div>
-      <div>
-        <label htmlFor="joincode" className="block">
-          Join Room
-        </label>
+      {/* <div className="h-2 w-full bg-blue-400 bg-opacity-80 rounded-sm" /> */}
+      <div className="pt-6">
         <input
-          className="px-2 py-1 ring-blue-300 ring-2 rounded-md w-full bg-gray-100"
+          className="mt-6 px-2 py-1 ring-blue-300 ring-2 rounded-md w-full bg-gray-100"
           id="joincode"
           type="text"
           value={enteredCode}
           onChange={(e) => setEnteredCode(e.target.value)}
         />
-        <button onClick={() => joinRoom()}>submit</button>
+        {/*<label htmlFor="joincode" className="text-center font-mono block"> Join Room
+        </label>*/}
+        <div className="flex align-center justify-center">
+          <button
+            className="mt-4 text-center 	p-2 font-mono rounded-lg bg-blue-500 bg-opacity-20 hover:scale-105 duration-300"
+            onClick={() => joinRoom()}>
+            Join Room
+          </button>
+        </div>
       </div>
     </div>
   )
